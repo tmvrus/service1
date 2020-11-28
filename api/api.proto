@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package com.affise.stats;
+
+option go_package = "github.com/tmvrus/service1/api";
+
+
+message UserEvent {
+    string id = 1;
+
+    UserCreate user_create = 2;
+    UserDelete user_delete = 3;
+}
+
+message UserCreate {
+    uint32 id = 1;
+    string name = 2;
+    string email = 3;
+}
+
+message UserDelete {
+    uint32 id = 1;
+    string date = 2;
+}
