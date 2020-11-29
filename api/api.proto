@@ -10,6 +10,7 @@ message UserEvent {
 
     UserCreate user_create = 2;
     UserDelete user_delete = 3;
+    UserSuspend user_suspend = 4;
 }
 
 message UserCreate {
@@ -21,4 +22,10 @@ message UserCreate {
 message UserDelete {
     uint32 id = 1;
     string date = 2;
+}
+
+message UserSuspend {
+    uint32 id = 1;
+    string date = 2;
+    string reason = 3;
 }

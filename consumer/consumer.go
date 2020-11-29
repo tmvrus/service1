@@ -72,6 +72,10 @@ func (h Consumer) HandleMessage(message *nsq.Message) error {
 		return h.userHandler.UserDelete(userEvent.UserDelete)
 	}
 
+	if userEvent.UserSuspend != nil {
+		return h.userHandler.UserSuspend(userEvent.UserSuspend)
+	}
+
 	l := log.Debug
 	if !h.logUnknownEventError {
 		l = log.Error

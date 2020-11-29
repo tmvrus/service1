@@ -65,6 +65,16 @@ func (m *UserEvent) Validate() error {
 		}
 	}
 
+	if v, ok := interface{}(m.GetUserSuspend()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UserEventValidationError{
+				field:  "UserSuspend",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
 	return nil
 }
 
@@ -259,3 +269,74 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = UserDeleteValidationError{}
+
+// Validate checks the field values on UserSuspend with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *UserSuspend) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Id
+
+	// no validation rules for Date
+
+	// no validation rules for Reason
+
+	return nil
+}
+
+// UserSuspendValidationError is the validation error returned by
+// UserSuspend.Validate if the designated constraints aren't met.
+type UserSuspendValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UserSuspendValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UserSuspendValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UserSuspendValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UserSuspendValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UserSuspendValidationError) ErrorName() string { return "UserSuspendValidationError" }
+
+// Error satisfies the builtin error interface
+func (e UserSuspendValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUserSuspend.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UserSuspendValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UserSuspendValidationError{}
